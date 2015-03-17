@@ -1,3 +1,7 @@
-relationlist
+/relationlist
 .dub
 dub.selections.json
+dub.userprefs
+test.dot
+test.png
+librelationlist.a

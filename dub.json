@@ -1,6 +1,7 @@
 {
 	"name": "relationlist",
 	"description": "A minimal D application.",
+	"targetType": "library",
 	"copyright": "Copyright © 2015, wildn00b",
 	"authors": ["wildn00b"],
 	"dependencies": {
