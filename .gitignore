@@ -5,3 +5,4 @@ dub.userprefs
 test.dot
 test.png
 librelationlist.a
+unittest

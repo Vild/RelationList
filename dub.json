@@ -1,9 +1,28 @@
 {
 	"name": "relationlist",
-	"description": "A minimal D application.",
+	"description": "A list with parent and child relationships",
 	"targetType": "library",
-	"copyright": "Copyright © 2015, wildn00b",
+	"copyright": "Copyright © 2015, Dan Printzell",
+	"license": "BSD 2-clause",
 	"authors": ["wildn00b"],
 	"dependencies": {
-	}
+	},
+	"configurations": [
+		{
+			"name": "library",
+			"targetType": "library",
+		},
+		{
+			"name": "unittest",
+			"targetType": "executable",
+			"dflags": ["-main"],
+		},
+		{
+			"name": "unittest-graph",
+			"targetType": "executable",
+			"targetName": "unittest",
+			"dflags": ["-main"],
+			"versions": ["PRINT_DOT_GRAPH"]
+		}
+	]
 }
