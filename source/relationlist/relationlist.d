@@ -5,85 +5,10 @@
 
 module relationlist.relationlist;
 
+public import relationlist.relationentry;
+
 import std.algorithm;
 import std.array;
-
-
-/**
- * The container class for the entries
- */
-class RelationEntry(V) {
-public:
-	alias Entry = RelationEntry!V;
-	/**
-	 * Creates a new entry object.
-	 * Should only be used for power users.
-	 * This is automatically done in the list.
-	 */
-	this(RelationList!V owner, ulong id, V value) {
-		this.id = id;
-		this.value = value;
-		this.owner = owner;
-	}
-
-	/**
-	 * Adds a child to the entry
-	 * Returns: The child you added.
-	 */
-	Entry * AddChild(ref Entry child) {
-		return AddChild(&child);
-	}
-	
-	/**
-	 * Gets all the parents for the list entry
-	 * Returns: The list of parents
-	 */
-	Entry * AddChild(Entry * child) {
-		children ~= child;
-		return &this;
-	}
-
-	/**
-	 * Gets all the parents for the list entry.
-	 * Returns: The list of parents.
-	 */
-	Entry[] GetParents() {
-		Entry[] ret;
-		foreach(Entry entry; owner)
-			if (entry.GotChild(this))
-				ret ~= entry;
-		return ret;
-	}
-
-	/**
-	 * Checks if this entry got a specific child.
-	 * Returns: True if it got the child.
-	 */
-	bool GotChild(Entry entry) {
-		foreach(child; children)
-			if (child.ID == entry.ID)
-				return true;
-		return false;
-	}
-
-	@property ulong ID() { return id; }
-	@property ref V Value() { return value; }
-
-	override string toString() {
-		import std.string : format;
-		return format("[ID: '%d', Value: '%s']", id, value);
-	}
-
-	V opCast(V_)() {
-		static assert(V is V_);
-		return value;
-	}
-private:
-	ulong id;
-	V value;
-	RelationList!(V) owner;
-	Entry *[] children;
-}
 
 /**
  * The class for the list
@@ -116,7 +41,7 @@ public:
 	 * Returns: The entry
 	 */
 	ref Entry Add(V value) {
-		return Add(new Entry(this, counter++, value));
+		return Add(new Entry(this, 0 /* Will be replaced in the other Add function */, value));
 	}
 
 	/**
@@ -124,6 +49,7 @@ public:
 	 * Returns: The entry
 	 */
 	ref Entry Add(Entry value) {
+		value.ID = counter++;
 		values ~= value;
 		return values[values.length-1];
 	}
@@ -142,8 +68,10 @@ public:
 	@property ref Entry[] Values() { return values; }
 
 	/**
+	 * DEPRECATED: Use Values instread
 	 * Returns: All the values of the entries
 	 */
+	deprecated("Use Values instead")
 	@property V[] CoreValues() {
 		V[] ret;
 		foreach (val; values)
@@ -178,6 +106,13 @@ public:
 	
 	ref Entry[] opSlice() {
 		return values;
+	}
+
+	Entry[] opSlice(size_t i, size_t j) {
+		Entry[] ret;
+		for(; i < j; i++)
+			ret ~= values[i];
+		return ret;
 	}
 private:
 	Entry[] values;

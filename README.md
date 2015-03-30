@@ -43,7 +43,7 @@ Example
 
 License
 -------
-BSD 2-clause
+Mozilla Public License, version 2.0
 
 Authors
 -------

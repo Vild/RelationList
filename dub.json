@@ -3,7 +3,7 @@
 	"description": "A list with parent and child relationships",
 	"targetType": "library",
 	"copyright": "Copyright © 2015, Dan Printzell",
-	"license": "BSD 2-clause",
+	"license": "MPL-2.0",
 	"authors": ["wildn00b"],
 	"dependencies": {
 	},
