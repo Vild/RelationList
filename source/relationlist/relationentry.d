@@ -23,19 +23,19 @@ public:
 
 	/**
 	 * Adds a child to the entry
-	 * Returns: The child you added.
+	 * Returns: This object for chain calls
 	 */
-	Entry * AddChild(ref Entry child) {
+	Entry AddChild(ref Entry child) {
 		return AddChild(&child);
 	}
 
 	/**
-	 * Gets all the parents for the list entry
-	 * Returns: The list of parents
+	 * Adds a child to the entry
+	 * Returns: This object for chain calls
 	 */
-	Entry * AddChild(Entry * child) {
+	Entry AddChild(Entry * child) {
 		children ~= child;
-		return &this;
+		return this;
 	}
 
 	/**
