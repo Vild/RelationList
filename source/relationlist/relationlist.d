@@ -16,14 +16,14 @@ import std.array;
 class RelationList(V) {
 public:
 	alias Entry = RelationEntry!V;
-
+	
 	/**
 	 * Create a new empty list
 	 */
 	this() {
 		counter = 0;
 	}
-
+	
 	/**
 	 * Creates a new list based on another list
 	 */
@@ -35,7 +35,7 @@ public:
 	~this() {
 		destroy(values);
 	}
-
+	
 	/**
 	 * Adds a entry to the list
 	 * Returns: The entry
@@ -43,7 +43,7 @@ public:
 	ref Entry Add(V value) {
 		return Add(new Entry(this, 0 /* Will be replaced in the other Add function */, value));
 	}
-
+	
 	/**
 	 * Adds a entry to the list
 	 * Returns: The entry
@@ -53,7 +53,7 @@ public:
 		values ~= value;
 		return values[values.length-1];
 	}
-
+	
 	/**
 	 * Gets a entry at a location
 	 * Returns: The entry
@@ -61,29 +61,17 @@ public:
 	ref Entry Get(ulong i) {
 		return values[i];
 	}
-
+	
 	/**
 	 * Returns: All the entries
 	 */
 	@property ref Entry[] Values() { return values; }
-
-	/**
-	 * DEPRECATED: Use Values instread
-	 * Returns: All the values of the entries
-	 */
-	deprecated("Use Values instead")
-	@property V[] CoreValues() {
-		V[] ret;
-		foreach (val; values)
-			ret ~= val.Value;
-		return ret;
-	}
-
+	
 	/**
 	 * Returns: The length
 	 */
 	@property ulong Length() { return values.length; }
-
+	
 	ref Entry opOpAssign(op)(V value) if (op == "~") {
 		return add(value);
 	}
@@ -107,7 +95,7 @@ public:
 	ref Entry[] opSlice() {
 		return values;
 	}
-
+	
 	Entry[] opSlice(size_t i, size_t j) {
 		Entry[] ret;
 		for(; i < j; i++)
@@ -124,7 +112,7 @@ unittest {
 	import std.math;
 	import std.process;
 	import std.exception;
-
+	
 	RelationList!char mylist = new RelationList!char();
 	auto a = mylist.Add('a');
 	auto b = mylist.Add('b');
@@ -132,30 +120,30 @@ unittest {
 	auto d = mylist.Add('d');
 	auto e = mylist.Add('e');
 	auto f = mylist.Add('f');
-
+	
 	a.AddChild(b);
 	b.AddChild(c).AddChild(d);
 	d.AddChild(e);
-
+	
 	e.AddChild(f);
 	f.AddChild(e);
-
+	
 	c.AddChild(f);
-
+	
 	writeln(a.GetParents());
 	writeln(b.GetParents());
 	writeln(c.GetParents());
 	writeln(d.GetParents());
 	writeln(e.GetParents());
 	writeln(f.GetParents());
-
+	
 	enforce(a.GetParents() == []);
 	enforce(b.GetParents() == [a]);
 	enforce(c.GetParents() == [b]);
 	enforce(d.GetParents() == [b]);
 	enforce(e.GetParents() == [d, f]);
 	enforce(f.GetParents() == [c, e]);
-
+	
 	version(PRINT_DOT_GRAPH) {
 		File fp = File("test.dot", "w");
 		fp.writefln("digraph test {");
