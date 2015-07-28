@@ -25,7 +25,7 @@ public:
 	 * Adds a child to the entry
 	 * Returns: This object for chain calls
 	 */
-	Entry AddChild(ref Entry child) {
+	Entry AddChild(Entry child) {
 		children ~= child;
 		return this;
 	}
