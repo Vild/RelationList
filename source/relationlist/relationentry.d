@@ -34,7 +34,10 @@ public:
 	 * Returns: This object for chain calls
 	 */
 	Entry AddChild(Entry child, bool allowChildDuplication) {
-		if (allowChildDuplication && !GotChild(child))
+		if (GotChild(child)) {
+			if (allowChildDuplication)
+				children ~= child;
+		} else
 			children ~= child;
 		return this;
 	}
