@@ -9,7 +9,7 @@ class RelationEntry(V) {
 public:
 	alias Entry = RelationEntry!V;
 	alias value this;
-	
+
 	/**
 	 * Creates a new entry object.
 	 * Should only be used for power users.
@@ -20,16 +20,25 @@ public:
 		this.value = value;
 		this.owner = owner;
 	}
-	
+
 	/**
 	 * Adds a child to the entry
 	 * Returns: This object for chain calls
 	 */
 	Entry AddChild(Entry child) {
-		children ~= child;
+		return AddChild(child, true);
+	}
+
+	/**
+	 * Adds a child to the entry with extra option to allow child duplications
+	 * Returns: This object for chain calls
+	 */
+	Entry AddChild(Entry child, bool allowChildDuplication) {
+		if (allowChildDuplication && !GotChild(child))
+			children ~= child;
 		return this;
 	}
-	
+
 	/**
 	 * Gets all the parents for the list entry.
 	 * Returns: The list of parents.
@@ -41,7 +50,7 @@ public:
 				ret ~= entry;
 		return ret;
 	}
-	
+
 	/**
 	 * Checks if this entry got a specific child.
 	 * Returns: True if it got the child.
@@ -52,16 +61,16 @@ public:
 				return true;
 		return false;
 	}
-	
+
 	@property ref ulong ID() { return id; }
 	@property ref V Value() { return value; }
 	@property ref Entry[] Children() { return children; }
-	
+
 	override string toString() {
 		import std.string : format;
 		return format("[ID: '%d', Value: '%s']", id, value);
 	}
-	
+
 	V opCast(V_)() {
 		static assert(V is V_);
 		return value;
