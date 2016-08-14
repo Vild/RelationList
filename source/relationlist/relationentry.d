@@ -15,7 +15,7 @@ public:
 	 * Should only be used for power users.
 	 * This is automatically done in the list.
 	 */
-	this(RelationList!V owner, ulong id, V value) {
+	this(RelationList!V owner, size_t id, V value) {
 		this.id = id;
 		this.value = value;
 		this.owner = owner;
@@ -65,7 +65,7 @@ public:
 		return false;
 	}
 
-	@property ref ulong ID() { return id; }
+	@property ref size_t ID() { return id; }
 	@property ref V Value() { return value; }
 	@property ref Entry[] Children() { return children; }
 
@@ -79,7 +79,7 @@ public:
 		return value;
 	}
 private:
-	ulong id;
+	size_t id;
 	V value;
 	RelationList!V owner;
 	Entry[] children;

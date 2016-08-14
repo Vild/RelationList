@@ -58,7 +58,7 @@ public:
 	 * Gets a entry at a location
 	 * Returns: The entry
 	 */
-	ref Entry Get(ulong i) {
+	ref Entry Get(size_t i) {
 		return values[i];
 	}
 	
@@ -70,7 +70,7 @@ public:
 	/**
 	 * Returns: The length
 	 */
-	@property ulong Length() { return values.length; }
+	@property size_t Length() { return values.length; }
 	
 	ref Entry opOpAssign(op)(V value) if (op == "~") {
 		return add(value);
@@ -104,7 +104,7 @@ public:
 	}
 private:
 	Entry[] values;
-	ulong counter;
+	size_t counter;
 }
 
 unittest {
